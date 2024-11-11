@@ -27,7 +27,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Cliente buscarPorId(Long id) {
+    public Cliente buscarPorId(int id) {
         Optional<Cliente> cliente = clienteRepository.findById(id);
         if (cliente.isPresent()){
             return cliente.get();
@@ -42,15 +42,18 @@ public class ClienteServiceImpl implements ClienteService {
 
 
     @Override
-    public void atualizar(Long id, Cliente cliente) {
+    public void atualizar(int id, Cliente cliente) {
         Optional<Cliente> clienteBd = clienteRepository.findById(id);
         if (clienteBd.isPresent()) {
-            salvarClienteComCep(cliente);
+            Cliente clienteExistente = clienteBd.get();
+            clienteExistente.setNome(cliente.getNome());
+            clienteExistente.setEndereco(cliente.getEndereco());
+            salvarClienteComCep(clienteExistente);
         }
     }
 
     @Override
-    public void deletar(Long id) {
+    public void deletar(int id) {
         clienteRepository.deleteById(id);
     }
 
